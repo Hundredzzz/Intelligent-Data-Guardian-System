@@ -1,0 +1,51 @@
+:root {
+  color: #1f2937;
+  background: #f3f6fb;
+  font-family: Inter, "Microsoft YaHei", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.page-title {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+.risk-low {
+  color: #059669;
+}
+
+.risk-medium {
+  color: #d97706;
+}
+
+.risk-high,
+.risk-critical {
+  color: #dc2626;
+}
