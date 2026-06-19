@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import io.jsonwebtoken.JwtException;
 import org.springframework.stereotype.Component;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,7 +30,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String header = request.getHeader("Authorization");
             if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
-                LoginUser loginUser = jwtTokenProvider.parseToken(header.substring(7));
+                LoginUser loginUser;
+                try {
+                    loginUser = jwtTokenProvider.parseToken(header.substring(7));
+                } catch (JwtException | IllegalArgumentException ex) {
+                    writeUnauthorized(response);
+                    return;
+                }
                 SecurityContext.set(loginUser);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         loginUser,
@@ -43,5 +50,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContext.clear();
             SecurityContextHolder.clearContext();
         }
+    }
+
+    private void writeUnauthorized(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("{\"code\":401,\"message\":\"登录已过期，请重新登录\"}");
     }
 }

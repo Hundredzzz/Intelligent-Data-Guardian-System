@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/guardian?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
     username: root
-    password: ${DB_PASSWORD:root}
+    password: ${DB_PASSWORD:}
   data:
     redis:
       host: localhost
@@ -35,7 +35,7 @@ guardian:
     expiration-minutes: 120
   deepseek:
     api-url: https://api.deepseek.com/chat/completions
-    api-key: ${DEEPSEEK_API_KEY:your-api-key-here}
+    api-key: ${DEEPSEEK_API_KEY:}
     model: deepseek-chat
 
 logging:
